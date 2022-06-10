@@ -17,8 +17,10 @@ class Vite
      *
      * @throws \Exception
      */
-    public function __invoke($entrypoints = 'resources/js/app.js', $buildDirectory = 'build')
-    {
+    public function __invoke(
+        $entrypoints = ['resources/css/app.css', 'resources/js/app.js'],
+        $buildDirectory = 'build'
+    ) {
         static $manifests = [];
 
         $entrypoints = collect($entrypoints);

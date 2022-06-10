@@ -32,7 +32,8 @@ class FoundationViteTest extends TestCase
         $result = (new Vite)();
 
         $this->assertSame(
-            '<script type="module" src="https://example.com/build/assets/app.versioned.js"></script>',
+            '<link rel="stylesheet" href="https://example.com/build/assets/app.versioned.css" />'
+            .'<script type="module" src="https://example.com/build/assets/app.versioned.js"></script>',
             $result->toHtml()
         );
     }
