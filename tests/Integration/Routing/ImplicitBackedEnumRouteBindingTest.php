@@ -28,6 +28,10 @@ Route::get('/categories/{category}', function (CategoryBackedEnum \$category) {
 Route::get('/categories-default/{category?}', function (CategoryBackedEnum \$category = CategoryBackedEnum::Fruits) {
     return \$category->value;
 })->middleware('web');
+
+Route::get('/categories-nullable/{category?}', function (CategoryBackedEnum \$category = null) {
+    return \$category->value;
+})->middleware('web');
 PHP);
 
         $response = $this->get('/categories/fruits');
@@ -47,6 +51,15 @@ PHP);
 
         $response = $this->get('/categories-default/fruits');
         $response->assertSee('fruits');
+
+        $response = $this->get('/categories-nullable/');
+        $response->assertSee(null);
+
+        $response = $this->get('/categories-nullable/people');
+        $response->assertSee('people');
+
+        $response = $this->get('/categories-nullable/fruits');
+        $response->assertSee('fruits');
     }
 
     public function testWithoutRouteCachingEnabled()
@@ -58,6 +71,10 @@ PHP);
         })->middleware(['web']);
 
         Route::post('/categories-default/{category?}', function (CategoryBackedEnum $category = CategoryBackedEnum::Fruits) {
+            return $category->value;
+        })->middleware('web');
+
+        Route::post('/categories-nullable/{category?}', function (CategoryBackedEnum $category = null) {
             return $category->value;
         })->middleware('web');
 
@@ -77,6 +94,15 @@ PHP);
         $response->assertSee('people');
 
         $response = $this->post('/categories-default/fruits');
+        $response->assertSee('fruits');
+
+        $response = $this->post('/categories-nullable/');
+        $response->assertSee(null);
+
+        $response = $this->post('/categories-nullable/people');
+        $response->assertSee('people');
+
+        $response = $this->post('/categories-nullable/fruits');
         $response->assertSee('fruits');
     }
 }
